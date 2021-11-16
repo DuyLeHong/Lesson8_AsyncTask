@@ -2,6 +2,7 @@ package com.example.lesson8_asynctask;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,10 +40,13 @@ public class MainActivity extends AppCompatActivity {
     class DownloadImageTask extends AsyncTask<String, Integer, Bitmap> {
 
         private Context context;
+        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.show();
         }
 
         public DownloadImageTask(Context context) {
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             onDownloadComplete(bitmap);
+            progressDialog.dismiss();
             super.onPostExecute(bitmap);
         }
 
