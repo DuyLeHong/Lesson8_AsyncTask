@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +19,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String IMAGE_URL = "https://codefresher.vn/wp-content/uploads/2021/06/Banner-01-QC-Android-1024x1024.png";
+    private static final String IMAGE_URL = "https://s1.o7planning.com/vi/12751/images/63147290.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private void startDownloadImage() {
         DownloadImageTask task = new DownloadImageTask(this.getApplicationContext());
         task.execute(IMAGE_URL);
+
+        DownloadTask task2 = new DownloadTask();
+
+        //String [] inputs = new String[]{"link1", "link2", "link3"};
+        task2.execute("link truyen vao");
+
     }
 
     private void onDownloadComplete(Bitmap bm) {
@@ -37,7 +45,30 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bm);
     }
 
-    class DownloadImageTask extends AsyncTask<String, Integer, Bitmap> {
+    class DownloadTask extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String link1 = strings[0];
+
+            Log.d("DownloadTask", link1);
+
+
+
+            return link1;
+        }
+
+        @Override
+        protected void onPostExecute(String _data) {
+            super.onPostExecute(_data);
+
+            Toast.makeText(getApplicationContext(), _data, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         private Context context;
         ProgressDialog progressDialog;
@@ -61,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(bitmap);
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//        }
 
         @Override
         protected Bitmap doInBackground(String... strings) {
